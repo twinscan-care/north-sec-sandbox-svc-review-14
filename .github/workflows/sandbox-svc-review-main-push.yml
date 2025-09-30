@@ -8,7 +8,6 @@ jobs:
   analyze:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -84,7 +83,6 @@ jobs:
   build:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -357,7 +355,7 @@ jobs:
       - id: notify-deployer
         name: Notify InfraStream Deployer
         working-directory: .
-        run: gcloud pubsub topics publish projects/${{ secrets.TWINSCAN_INFRASTREAM_PORTAL_PROJECT_ID }}/topics/deployment-notifications --message='{"buildDefinition":"sandbox-svc-review","container":"sandbox-svc-review","githubConnection":"default","repository":"sandbox-svc-review","version":"${{ needs.initialize.outputs.target_version }}"}'
+        run: gcloud pubsub topics publish projects/${{ secrets.TWINSCAN_INFRASTREAM_PORTAL_PROJECT_ID }}/topics/deployment-notifications --message='{"branchName":"${{ github.ref }}","buildDefinition":"sandbox-svc-review","container":"sandbox-svc-review","githubConnection":"default","repository":"sandbox-svc-review","version":"${{ needs.initialize.outputs.target_version }}"}'
     needs:
       - containerize-sandbox-svc-review-build
       - initialize
@@ -368,7 +366,6 @@ jobs:
   initialize:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -464,7 +461,6 @@ jobs:
   test:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
