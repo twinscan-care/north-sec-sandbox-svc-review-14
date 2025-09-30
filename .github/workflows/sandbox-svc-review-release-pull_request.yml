@@ -1,4 +1,4 @@
-name: Pull Request to release/*
+name: Pull Request to release/**
 run-name: ""
 "on":
   pull_request:
@@ -9,12 +9,11 @@ run-name: ""
       - synchronize
       - unlabeled
     branches:
-      - release/*
+      - release/**
 jobs:
   analyze:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -90,7 +89,6 @@ jobs:
   build:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -151,7 +149,6 @@ jobs:
   initialize:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -160,7 +157,7 @@ jobs:
       - id: branch-check
         name: Branch Verification
         run: |2
-          echo "ERROR: You can only merge to release/* from [bugfix/* chore/* fix/*]"
+          echo "ERROR: You can only merge to release/** from [bugfix/* chore/* fix/*]"
           exit 1
         if: '!contains(github.head_ref, ''bugfix/'') && !contains(github.head_ref, ''chore/'') && !contains(github.head_ref, ''fix/'')'
       - id: checkout
@@ -199,7 +196,6 @@ jobs:
   merge-authorized:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
@@ -217,7 +213,6 @@ jobs:
   test:
     runs-on:
       - ubuntu-latest
-    name: ""
     steps:
       - id: harden-runner
         uses: step-security/harden-runner@v2.12.0
