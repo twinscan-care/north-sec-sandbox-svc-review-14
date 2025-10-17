@@ -37,6 +37,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
+
+	createCharacteristicsFileIfNeeded(config.CharacteristicsFile)
+
 	gin.SetMode(viper.GetString("gin_mode"))
 
 	db, err := initDB(config)
@@ -85,6 +88,39 @@ func main() {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
+
+// createCharacteristicsFileIfNeeded creates the characteristics file if it does not exist.
+func createCharacteristicsFileIfNeeded(filePath string) {
+	// Check if the file already exists
+	if _, err := os.Stat(filePath); err == nil {
+		// File exists
+		return
+	} else if !os.IsNotExist(err) {
+		// An error other than "not exist" occurred
+		log.Fatalf("Error checking for characteristics file: %v", err)
+	}
+
+	// File does not exist, create it with default content
+	log.Printf("Characteristics file not found at %s, creating with default content.", filePath)
+
+	// Default content for the characteristics file
+	content := []byte(`{
+    "defaultColor": "black",
+    "defaultSize": "6'",
+    "defaultWeight": "12 pounds",
+    "defaultSurface": "wood",
+    "defaultMaterial": "cotton"
+}`)
+
+	// Write the content to the file
+	if err := os.WriteFile(filePath, content, 0644); err != nil {
+		log.Fatalf("Failed to write characteristics file: %v", err)
+	}
+
+	log.Println("Successfully created characteristics file.")
+}
+
+// loadConfig loads configuration from environment variables with sensible defaults.
 
 // loadConfig loads configuration from environment variables with sensible defaults.
 func loadConfig() (*Config, error) {

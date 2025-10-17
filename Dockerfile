@@ -14,7 +14,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy source code
-COPY ./cmd ./cmd
+COPY . .
 
 # Build the application, including all .go files in the cmd directory
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o review-service ./cmd
