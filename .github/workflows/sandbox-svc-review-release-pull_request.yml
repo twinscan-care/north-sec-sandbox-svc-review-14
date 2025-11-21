@@ -206,5 +206,5 @@ jobs:
       - build
       - initialize
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-sandbox-svc-review
   cancel-in-progress: true
